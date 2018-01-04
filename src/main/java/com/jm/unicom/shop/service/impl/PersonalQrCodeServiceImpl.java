@@ -24,16 +24,11 @@ public class PersonalQrCodeServiceImpl implements PersonalQrCodeService {
     private PersonalQrCodeDao personalQrCodeDao;
 
     @Override
-    public List<PersonalQrCode> save(String shopUuid, List<PersonalQrCode> personalQrCodeList) {
+    public List<PersonalQrCode> saveOrUpdate(String shopUuid, List<PersonalQrCode> personalQrCodeList) {
         for (PersonalQrCode personalQrCode : personalQrCodeList) {
             personalQrCode.setShop(new Shop(shopUuid));
             personalQrCodeDao.save(personalQrCode);
         }
         return personalQrCodeList;
-    }
-
-    @Override
-    public List<PersonalQrCode> update(List<PersonalQrCode> personalQrCodeList) {
-        return personalQrCodeDao.save(personalQrCodeList);
     }
 }
