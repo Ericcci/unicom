@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.sound.sampled.Line;
 import java.io.IOException;
 
@@ -36,15 +37,13 @@ public class ShopController {
     }
 
     @PostMapping
-    public InfoData save(@RequestBody Shop shop) throws IOException {
-        shopService.save(shop);
-        return InfoData.success(shop, "保存成功");
+    public InfoData save(@RequestBody Shop shop, HttpServletRequest request) throws IOException {
+        return InfoData.success(shopService.save(shop, request), "保存成功");
     }
 
     @PutMapping
     public InfoData update(@RequestBody Shop shop) {
-        shopService.update(shop);
-        return InfoData.success(shop, "更新成功");
+        return InfoData.success(shopService.update(shop), "更新成功");
     }
 
     //@RequestLimit(count = 1, time = 6000)

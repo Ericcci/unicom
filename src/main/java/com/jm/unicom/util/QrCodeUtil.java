@@ -26,7 +26,6 @@ public class QrCodeUtil {
         CloseableHttpResponse response = httpclient.execute(httpget);
         HttpEntity entity = response.getEntity();
         byte[] imageData = EntityUtils.toByteArray(entity);
-        String temp = byte2Base64StringFun(imageData);
         httpclient.close();
         return byte2Base64StringFun(imageData);
     }

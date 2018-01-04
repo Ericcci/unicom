@@ -58,7 +58,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/shop/**", "anon");
-        filterChainDefinitionMap.put("/qrcode/**", "anon");
+        filterChainDefinitionMap.put("/personalQrCode/**", "anon");
+        filterChainDefinitionMap.put("/shopQrCode/**", "anon");
         filterChainDefinitionMap.put("/htmlView", "anon");
         // 配置退出过滤器,其中的具体的退出代码Shiro已经替我们实现了
         filterChainDefinitionMap.put("/logout", "logout");

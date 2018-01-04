@@ -63,7 +63,10 @@ public class Shop {
     private Date createTime;
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.REMOVE)
-    private Set<QrCode> qrCodeSet = new HashSet<>();
+    private Set<ShopQrCode> shopQrCodeSet = new HashSet<>();
+
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.REMOVE)
+    private Set<PersonalQrCode> personalQrCodeSet = new HashSet<>();
 
     public Shop(String uuid) {
         this.uuid = uuid;

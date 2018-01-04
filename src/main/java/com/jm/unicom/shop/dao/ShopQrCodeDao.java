@@ -1,13 +1,13 @@
 package com.jm.unicom.shop.dao;
 
-import com.jm.unicom.shop.entity.QrCode;
+import com.jm.unicom.shop.entity.ShopQrCode;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * QrCodeDao
+ * ShopQrCodeDao
  *
  * @author Eric
  * @date 2018/1/2
  */
-public interface QrCodeDao extends JpaRepository<QrCode,String>{
+public interface ShopQrCodeDao extends JpaRepository<ShopQrCode,String>{
 }

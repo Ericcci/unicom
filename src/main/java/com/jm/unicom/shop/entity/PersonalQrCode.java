@@ -1,7 +1,6 @@
 package com.jm.unicom.shop.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
@@ -9,31 +8,36 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 /**
- * QrCode
+ * <b>Description:</b><br>
  *
- * @author Eric
- * @date 2018/1/2
+ * @author Eric.
+ * @version 1.0
+ *          <b>ProjectName:</b> unicom
+ *          <br><b>PackageName:</b> com.jm.unicom.shop.entity
+ *          <br><b>Date:</b> 2018/1/4 11:08
  */
 @Data
 @Entity
-@Table(name = "t_qrcode")
+@Table(name = "t_personal_qrcode")
 @JsonIdentityInfo(generator = JSOGGenerator.class)
-public class QrCode {
-
+public class PersonalQrCode {
     @Id
     @Column(name = "uuid", columnDefinition = "varchar(50) COMMENT '主键'")
-    @GenericGenerator(name = "qrcode-uuid", strategy = "uuid")
-    @GeneratedValue(generator = "qrcode-uuid")
+    @GenericGenerator(name = "personalqrcode-uuid", strategy = "uuid")
+    @GeneratedValue(generator = "personalqrcode-uuid")
     private String uuid;
 
     @ManyToOne
     private Shop shop;
 
+    @Column(columnDefinition = "int(5) COMMENT '二维码类型  0:微信 1:支付宝'")
+    private Integer imgType;
+
     @Column(columnDefinition = "longtext COMMENT 'base64二维码'")
     private String imgData;
 
-    @Column(columnDefinition = "varchar(200) COMMENT '二维码url'")
-    private String imgUrl;
+    @Column(columnDefinition = "varchar(200) COMMENT '备注信息'")
+    private String description;
 
     @Override
     public boolean equals(Object o) {
@@ -41,9 +45,9 @@ public class QrCode {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
 
-        QrCode qrCode = (QrCode) o;
+        PersonalQrCode that = (PersonalQrCode) o;
 
-        return uuid.equals(qrCode.uuid);
+        return uuid.equals(that.uuid);
     }
 
     @Override

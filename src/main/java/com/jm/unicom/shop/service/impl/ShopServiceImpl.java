@@ -1,13 +1,13 @@
 package com.jm.unicom.shop.service.impl;
 
 import com.jm.unicom.shop.dao.ShopDao;
-import com.jm.unicom.shop.entity.QrCode;
 import com.jm.unicom.shop.entity.Shop;
-import com.jm.unicom.shop.service.QrCodeService;
+import com.jm.unicom.shop.service.ShopQrCodeService;
 import com.jm.unicom.shop.service.ShopService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
@@ -22,12 +22,13 @@ public class ShopServiceImpl implements ShopService {
     private ShopDao shopDao;
 
     @Resource
-    private QrCodeService qrCodeService;
+    private ShopQrCodeService shopQrCodeService;
 
     @Override
-    public void save(Shop shop) throws IOException {
+    public Shop save(Shop shop, HttpServletRequest request) throws IOException {
         shopDao.save(shop);
-        qrCodeService.save(shop.getUuid());
+        shopQrCodeService.save(shop.getUuid(), request);
+        return shop;
     }
 
     @Override
@@ -36,7 +37,7 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public void update(Shop shop) {
-        shopDao.save(shop);
+    public Shop update(Shop shop) {
+        return shopDao.save(shop);
     }
 }
