@@ -54,8 +54,8 @@ public class Shop {
     @Column(columnDefinition = "int(25) COMMENT '银行卡号'")
     private Integer bankNo;
 
-    @Column(columnDefinition = "int(5) default 1 COMMENT '删除标记  -1:删除 1:有效'")
-    private Integer status;
+    @Column(columnDefinition = "int(5) COMMENT '删除标记  -1:删除 1:有效'")
+    private Integer status = 1;
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate

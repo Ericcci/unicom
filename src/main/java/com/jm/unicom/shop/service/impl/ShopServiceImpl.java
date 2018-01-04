@@ -6,11 +6,17 @@ import com.jm.unicom.shop.service.ShopQrCodeService;
 import com.jm.unicom.shop.service.ShopService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * ShopServiceImpl
@@ -44,7 +50,16 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
+    public void delete(List<Shop> shopList) {
+        for (Shop shop : shopList) {
+            shop.setStatus(-1);
+            shopDao.save(shop);
+        }
+    }
+
+    @Override
     public Page<Shop> findAll(Pageable pageable) {
-        return shopDao.findAll(pageable);
+        Specification<Shop> specification = (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("status").as(Integer.class), 1);
+        return shopDao.findAll(specification, pageable);
     }
 }

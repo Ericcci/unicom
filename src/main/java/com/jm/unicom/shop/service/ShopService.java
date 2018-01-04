@@ -42,6 +42,14 @@ public interface ShopService {
     Shop update(Shop shop);
 
     /**
+     * 更新单个店铺
+     *
+     * @param shopList 店铺实体类
+     * @return Shop
+     */
+    void delete(List<Shop> shopList);
+
+    /**
      * 分页查找全部店铺(无条件)
      *
      * @param pageable 分页条件

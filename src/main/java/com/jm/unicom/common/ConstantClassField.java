@@ -10,4 +10,5 @@ public class ConstantClassField {
     public static final String QRCODE_URL = "http://pan.baidu.com/share/qrcode?w=300&h=300&url=";
     public static final String HOST = "weixin://192.168.18.174:8080/shop/";
     public static final String BASE64_HEAD = "data:image/png;base64,";
+    public static final Integer STATUS = 1;
 }
