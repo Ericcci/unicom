@@ -4,6 +4,8 @@ import com.jm.unicom.shop.dao.ShopDao;
 import com.jm.unicom.shop.entity.Shop;
 import com.jm.unicom.shop.service.ShopQrCodeService;
 import com.jm.unicom.shop.service.ShopService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -39,5 +41,10 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public Shop update(Shop shop) {
         return shopDao.save(shop);
+    }
+
+    @Override
+    public Page<Shop> findAll(Pageable pageable) {
+        return shopDao.findAll(pageable);
     }
 }

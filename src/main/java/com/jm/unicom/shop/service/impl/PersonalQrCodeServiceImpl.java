@@ -31,4 +31,9 @@ public class PersonalQrCodeServiceImpl implements PersonalQrCodeService {
         }
         return personalQrCodeList;
     }
+
+    @Override
+    public void delete(List<PersonalQrCode> personalQrCodeList) {
+        personalQrCodeDao.delete(personalQrCodeList);
+    }
 }

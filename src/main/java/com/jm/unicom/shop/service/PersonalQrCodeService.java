@@ -22,4 +22,12 @@ public interface PersonalQrCodeService {
      * @return List<PersonalQrCode>
      */
     List<PersonalQrCode> saveOrUpdate(String shopUuid, List<PersonalQrCode> personalQrCodeList);
+
+    /**
+     * 删除个人收款码
+     *
+     * @param personalQrCodeList 收款码详情
+     * @return List<PersonalQrCode>
+     */
+    void delete(List<PersonalQrCode> personalQrCodeList);
 }
