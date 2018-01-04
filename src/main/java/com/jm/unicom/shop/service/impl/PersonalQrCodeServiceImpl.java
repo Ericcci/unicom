@@ -22,6 +22,7 @@ import java.util.List;
 public class PersonalQrCodeServiceImpl implements PersonalQrCodeService {
     @Resource
     private PersonalQrCodeDao personalQrCodeDao;
+
     @Override
     public List<PersonalQrCode> save(String shopUuid, List<PersonalQrCode> personalQrCodeList) {
         for (PersonalQrCode personalQrCode : personalQrCodeList) {
@@ -29,5 +30,10 @@ public class PersonalQrCodeServiceImpl implements PersonalQrCodeService {
             personalQrCodeDao.save(personalQrCode);
         }
         return personalQrCodeList;
+    }
+
+    @Override
+    public List<PersonalQrCode> update(List<PersonalQrCode> personalQrCodeList) {
+        return personalQrCodeDao.save(personalQrCodeList);
     }
 }

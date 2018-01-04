@@ -27,7 +27,11 @@ public class PersonalQrCodeController {
 
     @PostMapping("/{shopUuid}")
     public InfoData save(@PathVariable String shopUuid, @RequestBody List<PersonalQrCode> personalQrCodeList) {
-
         return InfoData.success(personalQrCodeService.save(shopUuid, personalQrCodeList), "保存成功");
+    }
+
+    @PostMapping
+    public InfoData update(@RequestBody List<PersonalQrCode> personalQrCodeList) {
+        return InfoData.success(personalQrCodeService.update(personalQrCodeList), "更新成功");
     }
 }

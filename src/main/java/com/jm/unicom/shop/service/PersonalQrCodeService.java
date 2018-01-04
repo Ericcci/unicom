@@ -14,5 +14,20 @@ import java.util.List;
  *          <br><b>Date:</b> 2018/1/4 11:45
  */
 public interface PersonalQrCodeService {
+    /**
+     * 保存个人收款码
+     *
+     * @param shopUuid 店铺uuid
+     * @param personalQrCodeList 收款码详情
+     * @return List<PersonalQrCode>
+     */
     List<PersonalQrCode> save(String shopUuid, List<PersonalQrCode> personalQrCodeList);
+
+    /**
+     * 更新个人收款码
+     *
+     * @param personalQrCodeList 收款码详情
+     * @return List<PersonalQrCode>
+     */
+    List<PersonalQrCode> update(List<PersonalQrCode> personalQrCodeList);
 }
