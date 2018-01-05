@@ -27,7 +27,6 @@ public class ShopQrCodeController {
         return shopQrCodeService.findByUuid(uuid);
     }
 
-    //生成二维码
     @PostMapping("/{shopUuid}")
     public ShopQrCode save(@PathVariable String shopUuid, HttpServletRequest request) throws IOException {
         return shopQrCodeService.save(shopUuid, request);
