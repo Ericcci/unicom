@@ -2,6 +2,7 @@ package com.jm.unicom.api.shop.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.jm.unicom.api.customer.entity.Customer;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -43,19 +44,19 @@ public class Shop implements Serializable {
     @Column(columnDefinition = "varchar(50) COMMENT '店主姓名'")
     private String shopKeeper;
 
-    @Column(columnDefinition = "varchar(20) COMMENT '店铺联系方式'")
+    @Column(columnDefinition = "varchar(200) COMMENT '店铺联系方式'")
     private String telpohone;
 
     @Column(columnDefinition = "varchar(200) COMMENT '店铺地址'")
     private String shopAddress;
 
-    @Column(columnDefinition = "int(30) COMMENT 'qq'")
+    @Column(columnDefinition = "int(200) COMMENT 'qq'")
     private Integer shopQq;
 
-    @Column(columnDefinition = "varchar(30) COMMENT '微信'")
+    @Column(columnDefinition = "varchar(200) COMMENT '微信'")
     private String shopWechat;
 
-    @Column(columnDefinition = "int(25) COMMENT '银行卡号'")
+    @Column(columnDefinition = "int(200) COMMENT '银行卡号'")
     private Integer bankNo;
 
     @Column(columnDefinition = "int(5) COMMENT '删除标记  -1:删除 1:有效'")
@@ -69,6 +70,10 @@ public class Shop implements Serializable {
     @JsonManagedReference("shop_qrcode")
     @OneToMany(mappedBy = "shop", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Set<ShopQrCode> shopQrCodeSet = new HashSet<>();
+
+    @JsonManagedReference("customer")
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    private Set<Customer> customerSet = new HashSet<>();
 
     @JsonManagedReference("personal_qrcode")
     @OneToMany(mappedBy = "shop", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)

@@ -12,4 +12,5 @@ public class ConstantClassField {
     public static final String BASE64_HEAD = "data:image/png;base64,";
     public static final Integer STATUS = 1;
     public static final Long SHOP_EXPIRE_TIME = 10L;
+    public static final String PHONE_FROM = "http://www.ip138.com:8080/search.asp?action=mobile&mobile=";
 }
