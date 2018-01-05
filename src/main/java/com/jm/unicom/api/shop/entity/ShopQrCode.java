@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * ShopQrCode
@@ -15,10 +17,13 @@ import javax.persistence.*;
  * @date 2018/1/2
  */
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "t_shop_qrcode")
 @JsonIdentityInfo(generator = JSOGGenerator.class)
-public class ShopQrCode {
+public class ShopQrCode implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @Column(name = "uuid", columnDefinition = "varchar(50) COMMENT '主键'")

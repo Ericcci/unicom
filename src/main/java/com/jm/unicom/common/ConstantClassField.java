@@ -11,4 +11,5 @@ public class ConstantClassField {
     public static final String HOST = "weixin://192.168.18.174:8080/shop/";
     public static final String BASE64_HEAD = "data:image/png;base64,";
     public static final Integer STATUS = 1;
+    public static final Long SHOP_EXPIRE_TIME = 10L;
 }

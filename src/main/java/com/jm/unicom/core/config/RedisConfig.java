@@ -50,27 +50,20 @@ public class RedisConfig extends CachingConfigurerSupport {
          */
         @Bean
         public CacheManager cacheManager(RedisTemplate<?, ?> redisTemplate) {
-            CacheManager cacheManager = new RedisCacheManager(redisTemplate);
-            return cacheManager;
+            return new RedisCacheManager(redisTemplate);
         }
 
         @Bean
         public RedisTemplate<Serializable, Serializable> redisTemplate(
                 JedisConnectionFactory redisConnectionFactory) {
             log.info("------------------------------------------");
-            log.info("-----------------local redis--------------");
+            log.info("-----------------加载 redis---------------");
             log.info("------------------------------------------");
             RedisTemplate<Serializable, Serializable> redisTemplate = new RedisTemplate<Serializable, Serializable>();
-            //key序列化方式;（不然会出现乱码;）,但是如果方法上有Long等非String类型的话，会报类型转换错误；
-            //所以在没有自己定义key生成策略的时候，以下这个代码建议不要这么写，可以不配置或者自己实现 ObjectRedisSerializer
-            //或者JdkSerializationRedisSerializer序列化方式;
             redisTemplate.setKeySerializer(new StringRedisSerializer());
             redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-            redisTemplate
-                    .setValueSerializer(new JdkSerializationRedisSerializer());
-            redisTemplate
-                    .setHashValueSerializer(new JdkSerializationRedisSerializer());
-            //以上4条配置可以不用
+            redisTemplate.setValueSerializer(new JdkSerializationRedisSerializer());
+            redisTemplate.setHashValueSerializer(new JdkSerializationRedisSerializer());
             redisTemplate.setConnectionFactory(redisConnectionFactory);
             return redisTemplate;
         }
@@ -95,19 +88,16 @@ public class RedisConfig extends CachingConfigurerSupport {
     @Override
     public KeyGenerator keyGenerator() {
         log.info("RedisCacheConfig.keyGenerator()");
-        return new KeyGenerator() {
-            @Override
-            public Object generate(Object o, Method method, Object... objects) {
+        return (o, method, objects) -> {
 
-                StringBuilder sb = new StringBuilder();
-                sb.append(o.getClass().getName());
-                sb.append(method.getName());
-                for (Object obj : objects) {
-                    sb.append(obj.toString());
-                }
-                log.info("keyGenerator=" + sb.toString());
-                return sb.toString();
+            StringBuilder sb = new StringBuilder();
+            sb.append(o.getClass().getName());
+            sb.append(method.getName());
+            for (Object obj : objects) {
+                sb.append(obj.toString());
             }
+            log.info("keyGenerator=" + sb.toString());
+            return sb.toString();
         };
     }
 }

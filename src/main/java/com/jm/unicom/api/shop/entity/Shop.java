@@ -1,6 +1,5 @@
 package com.jm.unicom.api.shop.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
@@ -11,6 +10,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,7 +27,9 @@ import java.util.Set;
 @Table(name = "t_shop")
 @JsonIdentityInfo(generator = JSOGGenerator.class)
 @EntityListeners(AuditingEntityListener.class)
-public class Shop {
+public class Shop implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @Column(name = "uuid", columnDefinition = "varchar(50) COMMENT '主键'")
@@ -65,11 +67,11 @@ public class Shop {
     private Date createTime;
 
     @JsonManagedReference("shop_qrcode")
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Set<ShopQrCode> shopQrCodeSet = new HashSet<>();
 
     @JsonManagedReference("personal_qrcode")
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Set<PersonalQrCode> personalQrCodeSet = new HashSet<>();
 
     public Shop(String uuid) {

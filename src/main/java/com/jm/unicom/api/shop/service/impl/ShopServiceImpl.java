@@ -4,6 +4,9 @@ import com.jm.unicom.api.shop.dao.ShopDao;
 import com.jm.unicom.api.shop.entity.Shop;
 import com.jm.unicom.api.shop.service.ShopQrCodeService;
 import com.jm.unicom.api.shop.service.ShopService;
+import com.jm.unicom.common.ConstantClassField;
+import com.jm.unicom.core.service.RedisService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -24,6 +27,9 @@ import java.util.List;
 public class ShopServiceImpl implements ShopService {
     @Resource
     private ShopDao shopDao;
+
+    @Resource
+    private RedisService redisService;
 
     @Resource
     private ShopQrCodeService shopQrCodeService;
@@ -47,12 +53,15 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public void delete(List<Shop> shopList) {
-            shopDao.save(shopList);
+        shopDao.save(shopList);
     }
 
     @Override
     public Page<Shop> findAll(Pageable pageable) {
         Specification<Shop> specification = (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("status").as(Integer.class), 1);
-        return shopDao.findAll(specification, pageable);
+        if (!(redisService.exists("shop" + pageable))) {
+            redisService.set("shop" + pageable, shopDao.findAll(specification, pageable), ConstantClassField.SHOP_EXPIRE_TIME);
+        }
+        return (Page<Shop>) redisService.get("shop" + pageable);
     }
 }
