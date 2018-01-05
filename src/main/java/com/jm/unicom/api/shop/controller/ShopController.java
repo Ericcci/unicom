@@ -31,7 +31,11 @@ public class ShopController {
 
     @GetMapping("/{uuid}")
     public InfoData getOneShop(@PathVariable String uuid) {
-        return InfoData.success(shopService.findByUuid(uuid), "获取成功");
+        Shop shop = shopService.findByUuid(uuid);
+        if (shop!=null){
+            return InfoData.success(shopService.findByUuid(uuid), "获取成功");
+        }
+        return InfoData.fail("获取失败");
     }
 
     @PostMapping

@@ -47,10 +47,7 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public void delete(List<Shop> shopList) {
-        for (Shop shop : shopList) {
-            shop.setStatus(-1);
-            shopDao.save(shop);
-        }
+            shopDao.save(shopList);
     }
 
     @Override
