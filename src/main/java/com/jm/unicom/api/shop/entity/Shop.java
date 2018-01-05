@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -60,7 +59,6 @@ public class Shop {
     @Column(columnDefinition = "int(5) COMMENT '删除标记  -1:删除 1:有效'")
     private Integer status = 1;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     @Column(name = "create_time", columnDefinition = "DATETIME COMMENT '创建时间'")
