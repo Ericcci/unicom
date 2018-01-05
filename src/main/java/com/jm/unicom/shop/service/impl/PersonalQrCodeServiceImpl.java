@@ -36,4 +36,9 @@ public class PersonalQrCodeServiceImpl implements PersonalQrCodeService {
     public void delete(List<PersonalQrCode> personalQrCodeList) {
         personalQrCodeDao.delete(personalQrCodeList);
     }
+
+    @Override
+    public List<PersonalQrCode> get(String shopUuid) {
+        return personalQrCodeDao.findByShopUuid(shopUuid);
+    }
 }

@@ -3,6 +3,8 @@ package com.jm.unicom.shop.dao;
 import com.jm.unicom.shop.entity.PersonalQrCode;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * <b>Description:</b><br>
  *
@@ -12,5 +14,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *          <br><b>PackageName:</b> com.jm.unicom.shop.dao
  *          <br><b>Date:</b> 2018/1/4 12:38
  */
-public interface PersonalQrCodeDao extends JpaRepository<PersonalQrCode,String> {
+public interface PersonalQrCodeDao extends JpaRepository<PersonalQrCode, String> {
+    List<PersonalQrCode> findByShopUuid(String shopUuid);
 }

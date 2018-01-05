@@ -25,13 +25,18 @@ public class PersonalQrCodeController {
     @Resource
     private PersonalQrCodeService personalQrCodeService;
 
+    @GetMapping("/{shopUuid}")
+    public List<PersonalQrCode> get(@PathVariable String shopUuid) {
+        return personalQrCodeService.get(shopUuid);
+    }
+
     @PostMapping("/{shopUuid}")
     public InfoData saveOrUpdate(@PathVariable String shopUuid, @RequestBody List<PersonalQrCode> personalQrCodeList) {
         return InfoData.success(personalQrCodeService.saveOrUpdate(shopUuid, personalQrCodeList), "保存(更新)成功");
     }
 
     @DeleteMapping
-    public InfoData delete(@RequestBody List<PersonalQrCode> personalQrCodeList){
+    public InfoData delete(@RequestBody List<PersonalQrCode> personalQrCodeList) {
         personalQrCodeService.delete(personalQrCodeList);
         return InfoData.success("删除成功");
     }

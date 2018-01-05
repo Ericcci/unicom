@@ -1,6 +1,7 @@
 package com.jm.unicom.shop.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -62,9 +63,11 @@ public class Shop {
     @Column(name = "create_time", columnDefinition = "DATETIME COMMENT '创建时间'")
     private Date createTime;
 
+    @JsonManagedReference("shop_qrcode")
     @OneToMany(mappedBy = "shop", cascade = CascadeType.REMOVE)
     private Set<ShopQrCode> shopQrCodeSet = new HashSet<>();
 
+    @JsonManagedReference("personal_qrcode")
     @OneToMany(mappedBy = "shop", cascade = CascadeType.REMOVE)
     private Set<PersonalQrCode> personalQrCodeSet = new HashSet<>();
 

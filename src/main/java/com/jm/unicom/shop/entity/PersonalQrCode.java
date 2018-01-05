@@ -1,5 +1,6 @@
 package com.jm.unicom.shop.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import lombok.Data;
@@ -27,6 +28,7 @@ public class PersonalQrCode {
     @GeneratedValue(generator = "personalqrcode-uuid")
     private String uuid;
 
+    @JsonBackReference("personal_qrcode")
     @ManyToOne
     private Shop shop;
 
@@ -41,9 +43,15 @@ public class PersonalQrCode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
 
         PersonalQrCode that = (PersonalQrCode) o;
 

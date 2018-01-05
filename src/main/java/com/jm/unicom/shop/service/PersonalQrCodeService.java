@@ -30,4 +30,12 @@ public interface PersonalQrCodeService {
      * @return List<PersonalQrCode>
      */
     void delete(List<PersonalQrCode> personalQrCodeList);
+
+    /**
+     * 获取个人收款码
+     *
+     * @param shopUuid 店铺uuid
+     * @return List<PersonalQrCode>
+     */
+    List<PersonalQrCode> get(String shopUuid);
 }
