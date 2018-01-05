@@ -10,9 +10,9 @@ import org.jsoup.select.Elements;
  *
  * @author Eric.
  * @version 1.0
- *          <b>ProjectName:</b> unicom
- *          <br><b>PackageName:</b> com.jm.unicom.core.util
- *          <br><b>Date:</b> 2018/1/5 18:30
+ * <b>ProjectName:</b> unicom
+ * <br><b>PackageName:</b> com.jm.unicom.core.util
+ * <br><b>Date:</b> 2018/1/5 18:30
  */
 public class MobileUtil {
     /**
@@ -59,10 +59,6 @@ public class MobileUtil {
         String url = ConstantClassField.PHONE_FROM + mobileNumber;
         url = String.format(url, mobileNumber);
         Document doc = Jsoup.connect(url).get();
-        //        System.out.println("归属地：" + els.get(1).text());
-//        System.out.println("类型：" + els.get(2).text());
-//        System.out.println("区号：" + els.get(3).text());
-//        System.out.println("邮编：" + els.get(4).text().substring(0, 6));
         return doc.getElementsByClass("tdc2");
     }
 }
