@@ -4,8 +4,10 @@ import com.jm.unicom.api.customer.dao.CustomerDao;
 import com.jm.unicom.api.customer.entity.Customer;
 import com.jm.unicom.api.customer.service.CustomerService;
 import com.jm.unicom.api.shop.entity.Shop;
+import com.jm.unicom.core.service.RedisService;
 import com.jm.unicom.core.util.HttpRequestUtil;
 import com.jm.unicom.core.util.MobileUtil;
+import com.jm.unicom.core.util.TimeUtil;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
@@ -17,15 +19,18 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author Eric.
  * @version 1.0
- *          <b>ProjectName:</b> unicom
- *          <br><b>PackageName:</b> com.jm.unicom.api.customer.service.impl
- *          <br><b>Date:</b> 2018/1/5 17:19
+ * <b>ProjectName:</b> unicom
+ * <br><b>PackageName:</b> com.jm.unicom.api.customer.service.impl
+ * <br><b>Date:</b> 2018/1/5 17:19
  */
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
     @Resource
     private CustomerDao customerDao;
+
+    @Resource
+    private RedisService redisService;
 
     @Override
     public Customer save(Customer customer, String shopUuid, HttpServletRequest request) throws Exception {
@@ -38,5 +43,16 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setZipCode(phoneInfo.get(4).text().substring(0, 6));
         customer.setShop(new Shop(shopUuid));
         return customerDao.save(customer);
+    }
+
+    @Override
+    public Boolean isQualifications(String shopUuid, HttpServletRequest request) {
+        String realIp = HttpRequestUtil.getIpAddr(request);
+        String key = shopUuid + "," + realIp;
+        if (!(redisService.exists(key))) {
+            redisService.set(key, "", TimeUtil.getTime());
+            return true;
+        }
+        return false;
     }
 }

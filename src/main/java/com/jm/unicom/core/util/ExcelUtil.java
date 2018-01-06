@@ -1,12 +1,16 @@
 package com.jm.unicom.core.util;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
+import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.jm.unicom.api.shop.entity.Shop;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -18,7 +22,7 @@ import java.util.List;
  * @date 2018-01-06 21:28:39
  */
 public class ExcelUtil {
-    public static void export(List<Shop> shopList, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public static void exportExcel(List<Shop> shopList, HttpServletRequest request, HttpServletResponse response) throws IOException {
         // 告诉浏览器用什么软件可以打开此文件
         response.setHeader("content-Type", "application/vnd.ms-excel");
         // 下载文件的默认名称

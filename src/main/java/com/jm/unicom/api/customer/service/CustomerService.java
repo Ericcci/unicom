@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author Eric.
  * @version 1.0
- *          <b>ProjectName:</b> unicom
- *          <br><b>PackageName:</b> com.jm.unicom.api.customer.service
- *          <br><b>Date:</b> 2018/1/5 17:18
+ * <b>ProjectName:</b> unicom
+ * <br><b>PackageName:</b> com.jm.unicom.api.customer.service
+ * <br><b>Date:</b> 2018/1/5 17:18
  */
 public interface CustomerService {
     /**
-     * 保存店铺
+     * 保存顾客信息
      *
      * @param customer 顾客实体类
      * @param shopUuid 店铺uuid
@@ -23,4 +23,13 @@ public interface CustomerService {
      * @return Customer
      */
     Customer save(Customer customer, String shopUuid, HttpServletRequest request) throws Exception;
+
+    /**
+     * 查看该顾客是否有资格抽奖
+     *
+     * @param shopUuid 店铺uuid
+     * @param request  请求
+     * @return Customer
+     */
+    Boolean isQualifications(String shopUuid, HttpServletRequest request);
 }

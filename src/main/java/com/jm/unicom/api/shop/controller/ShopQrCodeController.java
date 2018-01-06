@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
@@ -28,7 +27,7 @@ public class ShopQrCodeController {
     }
 
     @PostMapping("/{shopUuid}")
-    public ShopQrCode save(@PathVariable String shopUuid, HttpServletRequest request) throws IOException {
-        return shopQrCodeService.save(shopUuid, request);
+    public ShopQrCode save(@PathVariable String shopUuid) throws IOException {
+        return shopQrCodeService.save(shopUuid);
     }
 }
