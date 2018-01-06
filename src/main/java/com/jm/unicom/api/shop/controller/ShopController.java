@@ -1,17 +1,20 @@
 package com.jm.unicom.api.shop.controller;
 
-import com.jm.unicom.common.InfoData;
 import com.jm.unicom.api.shop.entity.Shop;
 import com.jm.unicom.api.shop.service.ShopService;
+import com.jm.unicom.common.InfoData;
+import com.jm.unicom.core.util.ExcelUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -32,15 +35,15 @@ public class ShopController {
     @GetMapping("/{uuid}")
     public InfoData getOneShop(@PathVariable String uuid) {
         Shop shop = shopService.findByUuid(uuid);
-        if (shop!=null){
+        if (shop != null) {
             return InfoData.success(shopService.findByUuid(uuid), "获取成功");
         }
         return InfoData.fail("获取失败");
     }
 
     @PostMapping
-    public InfoData save(@RequestBody Shop shop, HttpServletRequest request) throws IOException {
-        return InfoData.success(shopService.save(shop, request), "保存成功");
+    public InfoData save(@RequestBody Shop shop) throws IOException {
+        return InfoData.success(shopService.save(shop), "保存成功");
     }
 
     @PutMapping
@@ -56,10 +59,22 @@ public class ShopController {
 
     @GetMapping
     public Page<Shop> findAll(@RequestParam(value = "page", defaultValue = "0") Integer page,
-                                 @RequestParam(value = "size", defaultValue = "15") Integer size,
-                                 @RequestParam(value = "sorts", defaultValue = "createTime") String sorts) {
+                              @RequestParam(value = "size", defaultValue = "15") Integer size,
+                              @RequestParam(value = "sorts", defaultValue = "createTime") String sorts) {
         Sort sort = new Sort(Sort.Direction.DESC, sorts);
         Pageable pageable = new PageRequest(page, size, sort);
         return shopService.findAll(pageable);
     }
+
+    @PostMapping("/exportShop")
+    public InfoData exportShop(@RequestBody List<Shop> shopList, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        ExcelUtil.exportExcel(shopList, request, response);
+        return InfoData.success("成功导出");
+    }
+
+    @PostMapping("/importShop")
+    public InfoData importShop(@RequestParam(value = "files") MultipartFile[] files) throws Exception {
+        return shopService.importExcel(files) ? InfoData.success("导入成功") : InfoData.fail("导入失败");
+    }
 }
+

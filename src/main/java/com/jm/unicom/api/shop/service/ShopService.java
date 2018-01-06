@@ -3,8 +3,8 @@ package com.jm.unicom.api.shop.service;
 import com.jm.unicom.api.shop.entity.Shop;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 
@@ -19,11 +19,19 @@ public interface ShopService {
      * 保存店铺
      *
      * @param shop 店铺实体类
-     * @param request 请求
      * @throws IOException IO异常
      * @return Shop
      */
-    Shop save(Shop shop, HttpServletRequest request) throws IOException;
+    Shop save(Shop shop) throws IOException;
+
+    /**
+     * Excel导入店铺
+     *
+     * @param files Excel文件
+     * @throws Exception 异常
+     * @return boolean
+     */
+    boolean importExcel(MultipartFile[] files) throws Exception;
 
     /**
      * 查找单个店铺
