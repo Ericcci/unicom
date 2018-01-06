@@ -15,7 +15,7 @@ import java.util.Calendar;
  *          <br><b>Date:</b> 2018/1/5 16:37
  */
 public class TimeUtil {
-    public Long getTime() {
+    public static Long getTime() {
         return 86400 - DateUtils.getFragmentInSeconds(Calendar.getInstance(), Calendar.DATE);
     }
 }
