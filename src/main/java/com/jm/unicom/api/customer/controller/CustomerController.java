@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author Eric.
  * @version 1.0
- * <b>ProjectName:</b> unicom
- * <br><b>PackageName:</b> com.jm.unicom.api.customer.controller
- * <br><b>Date:</b> 2018/1/5 17:17
+ *          <b>ProjectName:</b> unicom
+ *          <br><b>PackageName:</b> com.jm.unicom.api.customer.controller
+ *          <br><b>Date:</b> 2018/1/5 17:17
  */
 @Slf4j
 @RestController
@@ -34,12 +34,6 @@ public class CustomerController {
 
     @GetMapping("/isQualifications/{shopUuid}")
     public InfoData isQualifications(@PathVariable String shopUuid, HttpServletRequest request) {
-//        if (customerService.isQualifications(shopUuid, request)){
-//
-//        }
-        //return customerService.isQualifications(shopUuid, request)?InfoData.success("具备抽奖资格");
-        String ip = HttpRequestUtil.getIpAddr(request);
-        System.out.println(ip);
-            return null;
+        return customerService.isQualifications(shopUuid, request) ? InfoData.success("具备抽奖资格") : InfoData.fail("不具备抽奖资格");
     }
 }

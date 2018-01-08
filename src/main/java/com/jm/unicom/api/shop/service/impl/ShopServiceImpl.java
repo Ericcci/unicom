@@ -8,6 +8,7 @@ import com.jm.unicom.api.shop.service.ShopQrCodeService;
 import com.jm.unicom.api.shop.service.ShopService;
 import com.jm.unicom.common.ConstantClassField;
 import com.jm.unicom.core.service.RedisService;
+import com.jm.unicom.core.util.ExcelUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,14 +46,11 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public boolean importExcel(MultipartFile[] files) throws Exception {
-        if (files != null && files.length > 0) {
-            for (MultipartFile file : files) {
-                ImportParams params = new ImportParams();
-                List<Shop> shopList = ExcelImportUtil.importExcel(file.getInputStream(), Shop.class, params);
-                shopDao.save(shopList);
-                for (Shop shop : shopList) {
-                    shopQrCodeService.save(shop.getUuid());
-                }
+        List<Shop> shopList = ExcelUtil.importExcel(files);
+        if (shopList.size() > 0) {
+            shopDao.save(shopList);
+            for (Shop shop : shopList) {
+                shopQrCodeService.save(shop.getUuid());
             }
             return true;
         }

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,5 +30,16 @@ public class ExcelUtil {
         response.setHeader("Content-Disposition", "attachment;filename=" + new String("店铺详情.xls".getBytes("gb2312"), "ISO8859-1"));
         Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams(), Shop.class, shopList);
         workbook.write(response.getOutputStream());
+    }
+
+    public static List<Shop> importExcel(MultipartFile[] files) throws Exception {
+        List<Shop> shopList = new ArrayList<>();
+        ImportParams params = new ImportParams();
+        if (files != null && files.length > 0) {
+            for (MultipartFile file : files) {
+                shopList.addAll(ExcelImportUtil.importExcel(file.getInputStream(), Shop.class, params));
+            }
+        }
+        return shopList;
     }
 }

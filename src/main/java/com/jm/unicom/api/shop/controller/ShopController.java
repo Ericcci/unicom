@@ -3,6 +3,7 @@ package com.jm.unicom.api.shop.controller;
 import com.jm.unicom.api.shop.entity.Shop;
 import com.jm.unicom.api.shop.service.ShopService;
 import com.jm.unicom.common.InfoData;
+import com.jm.unicom.core.service.RedisService;
 import com.jm.unicom.core.util.ExcelUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,6 +33,9 @@ public class ShopController {
 
     @Resource
     private ShopService shopService;
+
+    @Resource
+    private RedisService redisService;
 
     @GetMapping("/{uuid}")
     public InfoData getOneShop(@PathVariable String uuid) {
@@ -69,6 +74,7 @@ public class ShopController {
     @PostMapping("/exportShop")
     public InfoData exportShop(@RequestBody List<Shop> shopList, HttpServletRequest request, HttpServletResponse response) throws IOException {
         ExcelUtil.exportExcel(shopList, request, response);
+        //log.info(shopList.get(0).getUuid());
         return InfoData.success("成功导出");
     }
 
