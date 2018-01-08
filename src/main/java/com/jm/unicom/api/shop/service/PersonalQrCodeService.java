@@ -17,7 +17,7 @@ public interface PersonalQrCodeService {
     /**
      * 保存或更新个人收款码
      *
-     * @param shopUuid 店铺uuid
+     * @param shopUuid           店铺uuid
      * @param personalQrCodeList 收款码详情
      * @return List<PersonalQrCode>
      */
@@ -27,9 +27,8 @@ public interface PersonalQrCodeService {
      * 删除个人收款码
      *
      * @param personalQrCodeList 收款码详情
-     * @return List<PersonalQrCode>
      */
-    void delete(List<PersonalQrCode> personalQrCodeList);
+    void delete(List<PersonalQrCode> personalQrCodeList) throws Exception;
 
     /**
      * 获取个人收款码

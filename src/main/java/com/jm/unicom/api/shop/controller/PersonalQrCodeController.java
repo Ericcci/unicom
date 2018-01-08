@@ -1,8 +1,8 @@
 package com.jm.unicom.api.shop.controller;
 
-import com.jm.unicom.common.InfoData;
 import com.jm.unicom.api.shop.entity.PersonalQrCode;
 import com.jm.unicom.api.shop.service.PersonalQrCodeService;
+import com.jm.unicom.common.InfoData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,8 +36,7 @@ public class PersonalQrCodeController {
     }
 
     @DeleteMapping
-    public InfoData delete(@RequestBody List<PersonalQrCode> personalQrCodeList) {
+    public void delete(@RequestBody List<PersonalQrCode> personalQrCodeList) throws Exception {
         personalQrCodeService.delete(personalQrCodeList);
-        return InfoData.success("删除成功");
     }
 }

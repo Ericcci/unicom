@@ -34,9 +34,6 @@ public class ShopController {
     @Resource
     private ShopService shopService;
 
-    @Resource
-    private RedisService redisService;
-
     @GetMapping("/{uuid}")
     public InfoData getOneShop(@PathVariable String uuid) {
         Shop shop = shopService.findByUuid(uuid);
