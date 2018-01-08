@@ -19,9 +19,9 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author Eric.
  * @version 1.0
- * <b>ProjectName:</b> unicom
- * <br><b>PackageName:</b> com.jm.unicom.api.customer.service.impl
- * <br><b>Date:</b> 2018/1/5 17:19
+ *          <b>ProjectName:</b> unicom
+ *          <br><b>PackageName:</b> com.jm.unicom.api.customer.service.impl
+ *          <br><b>Date:</b> 2018/1/5 17:19
  */
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -50,7 +50,7 @@ public class CustomerServiceImpl implements CustomerService {
         String realIp = HttpRequestUtil.getIpAddr(request);
         String key = shopUuid + "," + realIp;
         if (!(redisService.exists(key))) {
-            redisService.set(key, "", TimeUtil.getTime());
+            redisService.set(key, "", TimeUtil.todayOverTime());
             return true;
         }
         return false;
