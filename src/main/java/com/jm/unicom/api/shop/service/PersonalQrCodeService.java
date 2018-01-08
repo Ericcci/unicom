@@ -14,6 +14,7 @@ import java.util.List;
  *          <br><b>Date:</b> 2018/1/4 11:45
  */
 public interface PersonalQrCodeService {
+
     /**
      * 保存或更新个人收款码
      *
@@ -28,7 +29,7 @@ public interface PersonalQrCodeService {
      *
      * @param personalQrCodeList 收款码详情
      */
-    void delete(List<PersonalQrCode> personalQrCodeList) throws Exception;
+    void delete(List<PersonalQrCode> personalQrCodeList);
 
     /**
      * 获取个人收款码

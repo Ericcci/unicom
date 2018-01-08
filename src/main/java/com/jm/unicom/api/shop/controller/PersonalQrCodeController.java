@@ -36,7 +36,7 @@ public class PersonalQrCodeController {
     }
 
     @DeleteMapping
-    public void delete(@RequestBody List<PersonalQrCode> personalQrCodeList) throws Exception {
+    public void delete(@RequestBody List<PersonalQrCode> personalQrCodeList) {
         personalQrCodeService.delete(personalQrCodeList);
     }
 }
