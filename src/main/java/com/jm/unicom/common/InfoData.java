@@ -93,6 +93,13 @@ public class InfoData {
         return infoData;
     }
 
+    public static InfoData fail(Object data,String msg) {
+        InfoData infoData = new InfoData(false);
+        infoData.data = data;
+        infoData.msg = msg;
+        infoData.time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        return infoData;
+    }
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<String, Object>();
         result.put("ret", ret);

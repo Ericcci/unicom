@@ -70,8 +70,7 @@ public class ShopController {
 
     @PostMapping("/exportShop")
     public InfoData exportShop(@RequestBody List<Shop> shopList, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        ExcelUtil.exportExcel(shopList, request, response);
-        return InfoData.success("成功导出");
+        return shopService.exportExcel(shopList, request, response) ? InfoData.success("导出成功") : InfoData.fail("导出失败");
     }
 
     @PostMapping("/importShop")

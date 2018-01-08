@@ -32,7 +32,7 @@ public class Customer implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "uuid", columnDefinition = "varchar(50) COMMENT '主键'")
+    @Column(name = "uuid", columnDefinition = "varchar(50) COMMENT '主键'", unique = true)
     @GenericGenerator(name = "customer-uuid", strategy = "uuid")
     @GeneratedValue(generator = "customer-uuid")
     private String uuid;
@@ -41,7 +41,7 @@ public class Customer implements Serializable {
     @ManyToOne
     private Shop shop;
 
-    @Column(columnDefinition = "varchar(200) COMMENT '顾客手机号'")
+    @Column(nullable = false, columnDefinition = "varchar(200) COMMENT '顾客手机号'")
     private String customerPhone;
 
     @Column(columnDefinition = "int(5) COMMENT '手机号码运营商 -1:未知运营商 0:中国移动 1:中国联通 2:中国电信'")
@@ -64,6 +64,9 @@ public class Customer implements Serializable {
 
     @Column(columnDefinition = "varchar(50) COMMENT '奖品名称'")
     private String prizeName;
+
+    @Column(columnDefinition = "int(10) COMMENT '扫码类型 -1:第三方扫码, 1:微信扫码 2:支付宝扫码'")
+    private Integer scanType;
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate

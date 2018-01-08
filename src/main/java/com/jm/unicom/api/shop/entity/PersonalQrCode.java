@@ -29,7 +29,7 @@ public class PersonalQrCode implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "uuid", columnDefinition = "varchar(50) COMMENT '主键'")
+    @Column(name = "uuid", columnDefinition = "varchar(50) COMMENT '主键'", unique = true)
     @GenericGenerator(name = "personalqrcode-uuid", strategy = "uuid")
     @GeneratedValue(generator = "personalqrcode-uuid")
     private String uuid;

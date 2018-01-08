@@ -1,7 +1,5 @@
 package com.jm.unicom.api.shop.service.impl;
 
-import cn.afterturn.easypoi.excel.ExcelImportUtil;
-import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.jm.unicom.api.shop.dao.ShopDao;
 import com.jm.unicom.api.shop.entity.Shop;
 import com.jm.unicom.api.shop.service.ShopQrCodeService;
@@ -16,8 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,5 +78,15 @@ public class ShopServiceImpl implements ShopService {
             redisService.set("shop" + pageable, shopDao.findAll(specification, pageable), ConstantClassField.SHOP_EXPIRE_TIME);
         }
         return (Page<Shop>) redisService.get("shop" + pageable);
+    }
+
+    @Override
+    public boolean exportExcel(List<Shop> shopList, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            ExcelUtil.exportExcel(shopList, request, response);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 }

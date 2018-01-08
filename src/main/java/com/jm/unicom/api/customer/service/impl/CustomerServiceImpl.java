@@ -7,6 +7,7 @@ import com.jm.unicom.api.shop.entity.Shop;
 import com.jm.unicom.core.service.RedisService;
 import com.jm.unicom.core.util.HttpRequestUtil;
 import com.jm.unicom.core.util.MobileUtil;
+import com.jm.unicom.core.util.ScanTypeUtil;
 import com.jm.unicom.core.util.TimeUtil;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer save(Customer customer, String shopUuid, HttpServletRequest request) throws Exception {
         Elements phoneInfo = MobileUtil.getMobileFrom(customer.getCustomerPhone());
         customer.setPhoneOperator(MobileUtil.validateMobile(customer.getCustomerPhone()));
+        customer.setScanType(ScanTypeUtil.isWechatOrAlipay(request));
         customer.setCustomerIp(HttpRequestUtil.getIpAddr(request));
         customer.setPhoneAddress(phoneInfo.get(1).text());
         customer.setPhoneType(phoneInfo.get(2).text());
@@ -46,13 +48,20 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Boolean isQualifications(String shopUuid, HttpServletRequest request) {
+    public Boolean isQualifications(String shopUuid, String prizeName, HttpServletRequest request) {
         String realIp = HttpRequestUtil.getIpAddr(request);
         String key = shopUuid + "," + realIp;
         if (!(redisService.exists(key))) {
-            redisService.set(key, "", TimeUtil.todayOverTime());
+            redisService.set(key, prizeName, TimeUtil.todayOverTime());
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String getPrizeName(String shopUuid, HttpServletRequest request) {
+        String realIp = HttpRequestUtil.getIpAddr(request);
+        String key = shopUuid + "," + realIp;
+        return (String) redisService.get(key);
     }
 }

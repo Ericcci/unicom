@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -19,19 +21,10 @@ public interface ShopService {
      * 保存店铺
      *
      * @param shop 店铺实体类
-     * @throws IOException IO异常
      * @return Shop
+     * @throws IOException IO异常
      */
     Shop save(Shop shop) throws IOException;
-
-    /**
-     * Excel导入店铺
-     *
-     * @param files Excel文件
-     * @throws Exception 异常
-     * @return boolean
-     */
-    boolean importExcel(MultipartFile[] files) throws Exception;
 
     /**
      * 查找单个店铺
@@ -50,10 +43,9 @@ public interface ShopService {
     Shop update(Shop shop);
 
     /**
-     * 更新单个店铺
+     * 批量删除/单个删除店铺
      *
      * @param shopList 店铺实体类
-     * @return Shop
      */
     void delete(List<Shop> shopList);
 
@@ -64,4 +56,24 @@ public interface ShopService {
      * @return Page
      */
     Page<Shop> findAll(Pageable pageable);
+
+    /**
+     * Excel导入店铺
+     *
+     * @param files Excel文件
+     * @return boolean
+     * @throws Exception 异常
+     */
+    boolean importExcel(MultipartFile[] files) throws Exception;
+
+    /**
+     * Excel导出店铺
+     *
+     * @param shopList 店铺
+     * @param request  请求
+     * @param response 回应
+     * @return boolean
+     * @throws IOException 异常
+     */
+    boolean exportExcel(List<Shop> shopList, HttpServletRequest request, HttpServletResponse response) throws IOException;
 }
