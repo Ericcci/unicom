@@ -31,45 +31,9 @@ import java.lang.reflect.Method;
  */
 @Slf4j
 @Configuration
-@EnableCaching//启用缓存
+@EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
 
-//    @Configuration
-//    static class LocalConfiguration {
-//        //从application.properties中获得以下参数
-//        @Value("${spring.redis.host}")
-//        private String host;
-//        @Value("${spring.redis.port}")
-//        private Integer port;
-//        @Value("${spring.redis.password}")
-//        private String password;
-//        @Value("${spring.redis.database}")
-//        private Integer database;
-//        @Value("${spring.redis.timeout}")
-//        private Integer timeout;
-//
-//        /**
-//         * 缓存管理器.
-//         *
-//         * @param redisTemplate
-//         * @return
-//         */
-//
-//
-//
-//
-////        @Bean
-////        public JedisConnectionFactory redisConnectionFactory() {
-////            JedisConnectionFactory redisConnectionFactory = new JedisConnectionFactory();
-////            redisConnectionFactory.setDatabase(database);
-////            redisConnectionFactory.setTimeout(timeout);
-////            redisConnectionFactory.setHostName(host);
-////            redisConnectionFactory.setPort(port);
-////            redisConnectionFactory.setPassword(password);
-////
-////            return redisConnectionFactory;
-////        }
-//    }
     @Bean
     public CacheManager cacheManager(RedisTemplate<?, ?> redisTemplate) {
         return new RedisCacheManager(redisTemplate);
@@ -91,6 +55,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
+
     /**
      * 自定义key.
      * 此方法将会根据类名+方法名+所有参数的值生成唯一的一个key
