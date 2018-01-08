@@ -24,7 +24,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "t_personal_qrcode")
 @JsonIdentityInfo(generator = JSOGGenerator.class)
-public class PersonalQrCode implements Serializable{
+public class PersonalQrCode implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,10 +38,10 @@ public class PersonalQrCode implements Serializable{
     @ManyToOne
     private Shop shop;
 
-    @Column(columnDefinition = "int(5) COMMENT '二维码类型  0:微信 1:支付宝'")
+    @Column(nullable = false, columnDefinition = "int(5) COMMENT '二维码类型  0:微信 1:支付宝'")
     private Integer imgType;
 
-    @Column(columnDefinition = "longtext COMMENT 'base64二维码'")
+    @Column(nullable = false, columnDefinition = "longtext COMMENT 'base64二维码'")
     private String imgData;
 
     @Column(columnDefinition = "varchar(200) COMMENT '备注信息'")
