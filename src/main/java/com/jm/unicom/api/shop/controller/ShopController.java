@@ -74,7 +74,6 @@ public class ShopController {
     @PostMapping("/exportShop")
     public InfoData exportShop(@RequestBody List<Shop> shopList, HttpServletRequest request, HttpServletResponse response) throws IOException {
         ExcelUtil.exportExcel(shopList, request, response);
-        //log.info(shopList.get(0).getUuid());
         return InfoData.success("成功导出");
     }
 
