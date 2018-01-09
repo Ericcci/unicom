@@ -70,12 +70,6 @@ public class ShopController {
         return shopService.exportExcel(shopList, request, response) ? InfoData.success("导出成功") : InfoData.fail("导出失败");
     }
 
-//    @GetMapping("/exportShop")
-//    public InfoData exportShop(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
-//        List<Shop> shopList = TestDataUtil.getTestData();
-//        return shopService.exportExcel(shopList, request, response) ? InfoData.success("导出成功") : InfoData.fail("导出失败");
-//    }
-
     @PostMapping("/importShop")
     public InfoData importShop(@RequestParam(value = "files") MultipartFile[] files) throws Exception {
         return shopService.importExcel(files) ? InfoData.success("导入成功") : InfoData.fail("导入失败");
