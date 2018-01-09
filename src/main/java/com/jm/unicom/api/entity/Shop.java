@@ -1,6 +1,7 @@
 package com.jm.unicom.api.entity;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
@@ -14,6 +15,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -75,6 +77,10 @@ public class Shop implements Serializable {
     @Column(name = "create_time", columnDefinition = "DATETIME COMMENT '创建时间'")
     private Date createTime;
 
+    @JsonBackReference("shopKeeperInfo")
+    @ManyToOne
+    private ShopKeeperInfo shopKeeperInfo;
+
     @JsonManagedReference("shop_qrcode")
     @OneToMany(mappedBy = "shop", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Set<ShopQrCode> shopQrCodeSet = new HashSet<>();
@@ -89,5 +95,26 @@ public class Shop implements Serializable {
 
     public Shop(String uuid) {
         this.uuid = uuid;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        Shop shop = (Shop) o;
+        return Objects.equals(uuid, shop.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(super.hashCode(), uuid);
     }
 }
