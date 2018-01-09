@@ -27,9 +27,6 @@ public class CustomerController {
     @Resource
     private CustomerService customerService;
 
-    @Resource
-    private RedisService redisService;
-
     @PostMapping("/{shopUuid}")
     public InfoData save(@RequestBody Customer customer, @PathVariable String shopUuid, HttpServletRequest request) throws Exception {
         return InfoData.success(customerService.save(customer, shopUuid, request), "保存成功");
