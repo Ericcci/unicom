@@ -4,12 +4,12 @@ import com.jm.unicom.api.customer.entity.Customer;
 import com.jm.unicom.api.customer.service.CustomerService;
 import com.jm.unicom.common.InfoData;
 import com.jm.unicom.core.service.RedisService;
-import com.jm.unicom.core.util.ScanTypeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.sound.sampled.Line;
 
 /**
  * <b>Description:</b><br>
@@ -40,6 +40,13 @@ public class CustomerController {
     public InfoData isQualifications(@PathVariable String shopUuid, @RequestParam String prizeName, HttpServletRequest request) {
         if (customerService.isQualifications(shopUuid, prizeName, request)) {
             return InfoData.success("具备抽奖资格");
+        } else {
+            if ("谢谢惠顾".equals(customerService.getPrizeName(shopUuid, request).getPrizeName())) {
+                return InfoData.fail("您与奖品擦身而过，请明日再来");
+            }
+            if (customerService.isExistCustomer(shopUuid, request)) {
+                return InfoData.fail("您在该店铺已参与过抽奖，请明日再来");
+            }
         }
         return InfoData.fail(customerService.getPrizeName(shopUuid, request), "已获取奖品");
     }

@@ -42,5 +42,14 @@ public interface CustomerService {
      * @param request  请求
      * @return String
      */
-    String getPrizeName(String shopUuid, HttpServletRequest request);
+    Customer getPrizeName(String shopUuid, HttpServletRequest request);
+
+    /**
+     * 存在用户资料则不参与抽奖
+     *
+     * @param shopUuid 店铺uuid
+     * @param request  请求
+     * @return boolean
+     */
+    boolean isExistCustomer(String shopUuid, HttpServletRequest request);
 }

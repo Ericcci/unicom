@@ -5,6 +5,7 @@ import com.jm.unicom.api.shop.service.ShopService;
 import com.jm.unicom.common.InfoData;
 import com.jm.unicom.core.service.RedisService;
 import com.jm.unicom.core.util.ExcelUtil;
+import com.jm.unicom.core.util.TestDataUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,7 +18,10 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -72,6 +76,12 @@ public class ShopController {
     public InfoData exportShop(@RequestBody List<Shop> shopList, HttpServletRequest request, HttpServletResponse response) throws IOException {
         return shopService.exportExcel(shopList, request, response) ? InfoData.success("导出成功") : InfoData.fail("导出失败");
     }
+
+//    @GetMapping("/exportShop")
+//    public InfoData exportShop(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+//        List<Shop> shopList = TestDataUtil.getTestData();
+//        return shopService.exportExcel(shopList, request, response) ? InfoData.success("导出成功") : InfoData.fail("导出失败");
+//    }
 
     @PostMapping("/importShop")
     public InfoData importShop(@RequestParam(value = "files") MultipartFile[] files) throws Exception {

@@ -74,10 +74,7 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public Page<Shop> findAll(Pageable pageable) {
         Specification<Shop> specification = (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("status").as(Integer.class), 1);
-        if (!(redisService.exists("shop" + pageable))) {
-            redisService.set("shop" + pageable, shopDao.findAll(specification, pageable), ConstantClassField.SHOP_EXPIRE_TIME);
-        }
-        return (Page<Shop>) redisService.get("shop" + pageable);
+        return shopDao.findAll(specification, pageable);
     }
 
     @Override
