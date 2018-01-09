@@ -1,6 +1,6 @@
 package com.jm.unicom.core.util;
 
-import com.jm.unicom.common.ConstantClassField;
+import com.jm.unicom.core.common.ConstantClassField;
 
 import javax.servlet.http.HttpServletRequest;
 
