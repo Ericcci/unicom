@@ -16,13 +16,22 @@ import java.util.List;
 public interface PersonalQrCodeService {
 
     /**
-     * 保存或更新个人收款码
+     * 保存个人收款码
      *
      * @param shopUuid           店铺uuid
      * @param personalQrCodeList 收款码详情
      * @return List<PersonalQrCode>
      */
-    List<PersonalQrCode> saveOrUpdate(String shopUuid, List<PersonalQrCode> personalQrCodeList);
+    List<PersonalQrCode> save(String shopUuid, List<PersonalQrCode> personalQrCodeList);
+
+    /**
+     * 更新个人收款码
+     *
+     * @param shopUuid           店铺uuid
+     * @param personalQrCodeList 收款码详情
+     * @return List<PersonalQrCode>
+     */
+    List<PersonalQrCode> update(String shopUuid, List<PersonalQrCode> personalQrCodeList);
 
     /**
      * 删除个人收款码

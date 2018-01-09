@@ -35,7 +35,7 @@ public class ShopController {
     @Resource
     private ShopService shopService;
 
-    @GetMapping("/{uuid}")
+    @GetMapping("get/{uuid}")
     @ApiOperation(value = "获取单个店铺信息", notes = "获取单个店铺信息", httpMethod = "GET")
     public InfoData getOneShop(@ApiParam(name = "uuid", value = "店铺uuid", required = true) @PathVariable String uuid) {
         Shop shop = shopService.findByUuid(uuid);
@@ -45,30 +45,30 @@ public class ShopController {
         return InfoData.fail("获取失败");
     }
 
-    @PostMapping
-    @ApiOperation(value = "保存店铺信息", notes = "保存店铺信息", httpMethod = "POST")
+    @PostMapping("/add")
+    @ApiOperation(value = "新增店铺信息", notes = "新增店铺信息", httpMethod = "POST")
     public InfoData save(@ApiParam(name = "shop", value = "店铺实体类", required = true) @RequestBody Shop shop) throws IOException {
         return InfoData.success(shopService.save(shop), "保存成功");
     }
 
-    @PutMapping
+    @PutMapping("/update")
     @ApiOperation(value = "更新店铺信息", notes = "更新店铺信息", httpMethod = "PUT")
     public InfoData update(@ApiParam(name = "shop", value = "店铺实体类", required = true) @RequestBody Shop shop) {
         return InfoData.success(shopService.update(shop), "更新成功");
     }
 
     @PutMapping("/delete")
-    @ApiOperation(value = "删除店铺信息", notes = "删除店铺信息", httpMethod = "PUT")
+    @ApiOperation(value = "删除店铺信息(逻辑删除)", notes = "删除店铺信息(逻辑删除)", httpMethod = "PUT")
     public InfoData delete(@ApiParam(name = "shopList", value = "店铺实体集合类", required = true) @RequestBody List<Shop> shopList) {
         shopService.delete(shopList);
         return InfoData.success("删除成功");
     }
 
-    @GetMapping
+    @GetMapping("/get/pageShop")
     @ApiOperation(value = "分页获取店铺信息", notes = "分页获取店铺信息", httpMethod = "GET")
-    public Page<Shop> findAll(@ApiParam(name = "page", value = "页数") @RequestParam(value = "page", defaultValue = "0") Integer page,
-                              @ApiParam(name = "size", value = "数量") @RequestParam(value = "size", defaultValue = "15") Integer size,
-                              @ApiParam(name = "sorts", value = "排序") @RequestParam(value = "sorts", defaultValue = "createTime") String sorts) {
+    public Page<Shop> findAll(@ApiParam(name = "page", value = "页数", defaultValue = "0") @RequestParam(value = "page", defaultValue = "0") Integer page,
+                              @ApiParam(name = "size", value = "数量", defaultValue = "15") @RequestParam(value = "size", defaultValue = "15") Integer size,
+                              @ApiParam(name = "sorts", value = "排序", defaultValue = "createTime") @RequestParam(value = "sorts", defaultValue = "createTime") String sorts) {
         Sort sort = new Sort(Sort.Direction.DESC, sorts);
         Pageable pageable = new PageRequest(page, size, sort);
         return shopService.findAll(pageable);

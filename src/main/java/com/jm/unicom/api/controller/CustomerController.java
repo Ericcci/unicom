@@ -17,9 +17,9 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author Eric.
  * @version 1.0
- *          <b>ProjectName:</b> unicom
- *          <br><b>PackageName:</b> com.jm.unicom.api.customer.controller
- *          <br><b>Date:</b> 2018/1/5 17:17
+ * <b>ProjectName:</b> unicom
+ * <br><b>PackageName:</b> com.jm.unicom.api.customer.controller
+ * <br><b>Date:</b> 2018/1/5 17:17
  */
 @Slf4j
 @RestController
@@ -30,8 +30,8 @@ public class CustomerController {
     @Resource
     private CustomerService customerService;
 
-    @PostMapping("/{shopUuid}")
-    @ApiOperation(value = "保存顾客信息", notes = "保存顾客信息", httpMethod = "POST")
+    @PostMapping("/add/{shopUuid}")
+    @ApiOperation(value = "新增顾客信息", notes = "新增顾客信息", httpMethod = "POST")
     public InfoData save(@ApiParam(name = "customer", value = "顾客实体类", required = true) @RequestBody Customer customer,
                          @ApiParam(name = "shopUuid", value = "店铺uuid", required = true) @PathVariable String shopUuid, HttpServletRequest request) throws Exception {
         return InfoData.success(customerService.save(customer, shopUuid, request), "保存成功");
