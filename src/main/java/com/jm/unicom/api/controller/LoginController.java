@@ -10,6 +10,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ import java.io.IOException;
  */
 @Slf4j
 @Controller
+@ApiIgnore
 public class LoginController {
 
     @RequestMapping("/login")

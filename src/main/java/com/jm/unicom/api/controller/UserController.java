@@ -5,6 +5,7 @@ import com.jm.unicom.api.entity.User;
 import com.jm.unicom.api.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 
@@ -17,6 +18,7 @@ import javax.annotation.Resource;
 @Slf4j
 @RestController
 @RequestMapping("/user")
+@ApiIgnore
 public class UserController {
 
     @Resource
