@@ -1,7 +1,10 @@
 package com.jm.unicom.api.service.impl;
 
 import com.jm.unicom.api.dao.ShopDao;
+import com.jm.unicom.api.dao.ShopKeeperInfoDao;
 import com.jm.unicom.api.entity.Shop;
+import com.jm.unicom.api.entity.ShopKeeperInfo;
+import com.jm.unicom.api.service.ShopKeeperInfoService;
 import com.jm.unicom.api.service.ShopQrCodeService;
 import com.jm.unicom.api.service.ShopService;
 import com.jm.unicom.core.service.RedisService;
@@ -16,7 +19,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * ShopServiceImpl
@@ -26,19 +31,26 @@ import java.util.List;
  */
 @Service
 public class ShopServiceImpl implements ShopService {
+
     @Resource
     private ShopDao shopDao;
 
     @Resource
-    private RedisService redisService;
+    private ShopQrCodeService shopQrCodeService;
 
     @Resource
-    private ShopQrCodeService shopQrCodeService;
+    private ShopKeeperInfoService shopKeeperInfoService;
 
     @Override
     public Shop save(Shop shop) throws IOException {
+        ShopKeeperInfo shopKeeperInfo = new ShopKeeperInfo();
+        shopKeeperInfo.setUserName(shop.getTelpohone());
+        shopKeeperInfo.setPassword("123");
+        shopKeeperInfoService.save(shopKeeperInfo);
+        shop.setShopKeeperInfo(new ShopKeeperInfo(shopKeeperInfo.getUuid()));
         shopDao.save(shop);
         shopQrCodeService.save(shop.getUuid());
+
         return shop;
     }
 

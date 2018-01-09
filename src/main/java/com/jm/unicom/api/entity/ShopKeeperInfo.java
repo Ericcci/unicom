@@ -39,7 +39,11 @@ public class ShopKeeperInfo implements Serializable {
     @Column(columnDefinition = "varchar(200) COMMENT '登录密码'")
     private String password;
 
-    @JsonManagedReference("shopKeeperInfo")
-    @OneToMany(mappedBy = "shopKeeperInfo", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    private Set<Shop> shopQrCodeSet = new HashSet<>();
+    @JsonManagedReference("shop")
+    @OneToMany(mappedBy = "shopKeeper", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    private Set<Shop> shopSet = new HashSet<>();
+
+    public ShopKeeperInfo(String uuid) {
+        this.uuid = uuid;
+    }
 }

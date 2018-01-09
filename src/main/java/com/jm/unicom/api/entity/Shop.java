@@ -77,7 +77,7 @@ public class Shop implements Serializable {
     @Column(name = "create_time", columnDefinition = "DATETIME COMMENT '创建时间'")
     private Date createTime;
 
-    @JsonBackReference("shopKeeperInfo")
+    @JsonBackReference("shop")
     @ManyToOne
     private ShopKeeperInfo shopKeeperInfo;
 
