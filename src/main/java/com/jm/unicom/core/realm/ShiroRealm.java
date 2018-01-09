@@ -1,9 +1,9 @@
 package com.jm.unicom.core.realm;
 
-import com.jm.unicom.api.user.entity.Permission;
-import com.jm.unicom.api.user.entity.Role;
-import com.jm.unicom.api.user.entity.User;
-import com.jm.unicom.api.user.service.UserService;
+import com.jm.unicom.api.entity.Permission;
+import com.jm.unicom.api.entity.Role;
+import com.jm.unicom.api.entity.User;
+import com.jm.unicom.api.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;

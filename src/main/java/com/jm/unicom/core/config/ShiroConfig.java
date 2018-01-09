@@ -1,7 +1,7 @@
 package com.jm.unicom.core.config;
 
 import com.jm.unicom.core.realm.ShiroRealm;
-import com.jm.unicom.api.user.service.PermissionService;
+import com.jm.unicom.api.service.PermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;

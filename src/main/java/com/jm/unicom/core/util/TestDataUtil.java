@@ -1,6 +1,6 @@
 package com.jm.unicom.core.util;
 
-import com.jm.unicom.api.shop.entity.Shop;
+import com.jm.unicom.api.entity.Shop;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
