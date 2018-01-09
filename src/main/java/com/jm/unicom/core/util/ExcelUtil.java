@@ -35,6 +35,8 @@ public class ExcelUtil {
     public static List<Shop> importExcel(MultipartFile[] files) throws Exception {
         List<Shop> shopList = new ArrayList<>();
         ImportParams params = new ImportParams();
+        params.setTitleRows(1);
+        params.setHeadRows(1);
         if (files != null && files.length > 0) {
             for (MultipartFile file : files) {
                 shopList.addAll(ExcelImportUtil.importExcel(file.getInputStream(), Shop.class, params));
