@@ -1,4 +1,4 @@
-package com.jm.unicom.api.service.impl;
+package com.jm.unicom.core.service;
 
 import com.jm.unicom.api.entity.Permission;
 import com.jm.unicom.api.service.PermissionService;
@@ -20,7 +20,7 @@ import java.util.Map;
  * @date 2017/12/28
  */
 @Service
-public class ShiroServiceImpl {
+public class ShiroService {
     @Resource
     private ShiroFilterFactoryBean shiroFilterFactoryBean;
 

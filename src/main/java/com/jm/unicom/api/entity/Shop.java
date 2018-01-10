@@ -77,10 +77,6 @@ public class Shop implements Serializable {
     @Column(name = "create_time", columnDefinition = "DATETIME COMMENT '创建时间'")
     private Date createTime;
 
-    @JsonBackReference("shop")
-    @ManyToOne
-    private ShopKeeperInfo shopKeeperInfo;
-
     @JsonManagedReference("shop_qrcode")
     @OneToMany(mappedBy = "shop", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Set<ShopQrCode> shopQrCodeSet = new HashSet<>();
