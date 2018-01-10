@@ -24,9 +24,17 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @GetMapping("/{uuid}")
+    @GetMapping("/get/{uuid}")
     public User get(@PathVariable String uuid) {
         return userService.findByUuid(uuid);
+    }
+
+    @GetMapping("/get/findByUserName/{userName}")
+    public InfoData findByUserName(@PathVariable String userName) {
+        if (userService.findByUserName(userName) != null) {
+            return InfoData.success(userService.findByUserName(userName), "获取成功");
+        }
+        return InfoData.fail("获取失败");
     }
 
     @PostMapping

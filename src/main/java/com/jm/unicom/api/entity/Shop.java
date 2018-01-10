@@ -27,7 +27,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "t_shop")
+@Table(name = "t_shop", indexes = {@Index(name = "IDX_SHOP", columnList = "telpohone")})
 @JsonIdentityInfo(generator = JSOGGenerator.class)
 @EntityListeners(AuditingEntityListener.class)
 public class Shop implements Serializable {
@@ -76,6 +76,10 @@ public class Shop implements Serializable {
     @CreatedDate
     @Column(name = "create_time", columnDefinition = "DATETIME COMMENT '创建时间'")
     private Date createTime;
+
+    @JsonBackReference("shop")
+    @ManyToOne
+    private User user;
 
     @JsonManagedReference("shop_qrcode")
     @OneToMany(mappedBy = "shop", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)

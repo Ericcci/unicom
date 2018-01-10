@@ -12,5 +12,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserDao extends JpaRepository<User, String> {
 
-    User findByUserName(String name);
+    User findByUserName(String userName);
 }

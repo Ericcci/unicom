@@ -14,4 +14,5 @@ public class ConstantClassField {
     public static final String PHONE_FROM = "http://www.ip138.com:8080/search.asp?action=mobile&mobile=";
     public static final String ALIPAY = "Alipay";
     public static final String WECHAT = "MicroMessenger";
+    public static final String DEFAULT_PASSWORD = "123";
 }

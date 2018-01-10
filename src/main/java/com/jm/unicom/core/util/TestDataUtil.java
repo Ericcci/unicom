@@ -21,7 +21,7 @@ public class TestDataUtil {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time = "2013-12-12 12:12:12";
         List<Shop> shopList = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1000; i++) {
             Shop shop = new Shop();
             shop.setShopName("杂货铺" + i);
             shop.setShopKeeper("eric");

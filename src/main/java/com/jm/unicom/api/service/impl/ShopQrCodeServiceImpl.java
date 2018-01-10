@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ShopQrCodeServiceImpl
@@ -28,11 +30,16 @@ public class ShopQrCodeServiceImpl implements ShopQrCodeService {
     }
 
     @Override
-    public ShopQrCode save(String shopUuid) throws IOException {
-        ShopQrCode shopQrCode = new ShopQrCode();
-        shopQrCode.setImgUrl(ConstantClassField.HOST + shopUuid);
-        shopQrCode.setImgData(ConstantClassField.BASE64_HEAD + QrCodeUtil.getQrCode(ConstantClassField.QRCODE_URL + ConstantClassField.HOST + shopUuid));
-        shopQrCode.setShop(new Shop(shopUuid));
+    public ShopQrCode save(List<String> shopUuidList) throws IOException {
+        List<ShopQrCode> shopQrCodeList = new ArrayList<>();
+        for(int i =0;i<shopUuidList.size();i++){
+            ShopQrCode shopQrCode = new ShopQrCode();
+            shopQrCode.setImgUrl(ConstantClassField.HOST + shopUuidList.get(i));
+            shopQrCode.setImgData(ConstantClassField.BASE64_HEAD + QrCodeUtil.getQrCode(ConstantClassField.QRCODE_URL + ConstantClassField.HOST + shopUuidList.get(i)));
+            shopQrCode.setShop(new Shop(shopUuidList.get(i)));
+            shopQrCodeList.add(shopQrCode);
+        }
+
         return shopQrCodeDao.save(shopQrCode);
     }
 }

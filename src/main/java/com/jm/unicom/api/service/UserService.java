@@ -11,10 +11,11 @@ import java.util.Set;
  * @date 2017/12/22
  */
 public interface UserService {
-    User findByUuid(String uuid);
+    User save(User user);
+
     User findByUserName(String userName);
-    void save(User user);
-    void update(User user);
-    Set<String> getRoles(String userName);
-    Set<String> getPermissions(String userName);
+
+    User update(User user);
+
+    User findByUuid(String uuid);
 }

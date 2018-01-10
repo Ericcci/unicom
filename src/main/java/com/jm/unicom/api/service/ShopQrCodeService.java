@@ -3,6 +3,7 @@ package com.jm.unicom.api.service;
 import com.jm.unicom.api.entity.ShopQrCode;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * ShopQrCodeService
@@ -14,5 +15,5 @@ public interface ShopQrCodeService {
 
     ShopQrCode findByUuid(String shopUuid);
 
-    ShopQrCode save(String shopUuid) throws IOException;
+    ShopQrCode save(List<String> shopUuidList) throws IOException;
 }
