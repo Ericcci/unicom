@@ -35,9 +35,6 @@ public class ShopQrCode implements Serializable {
     @ManyToOne
     private Shop shop;
 
-    @Column(nullable = false, columnDefinition = "longtext COMMENT 'base64二维码'")
-    private String imgData;
-
     @Column(nullable = false, columnDefinition = "varchar(200) COMMENT '二维码url'")
     private String imgUrl;
 

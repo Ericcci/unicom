@@ -9,6 +9,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -25,9 +26,15 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
+    public void batchSave(List<User> userList) {
+        userDao.save(userList);
+    }
+
+    @Override
     public User save(User user) {
         return userDao.save(user);
     }
+
 
     @Override
     public User findByUserName(String userName) {

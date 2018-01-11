@@ -10,6 +10,7 @@ import com.jm.unicom.core.common.ConstantClassField;
 import com.jm.unicom.core.util.ExcelUtil;
 import com.jm.unicom.core.util.MD5Util;
 import com.jm.unicom.core.util.UUIDUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -17,10 +18,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * ShopServiceImpl
@@ -28,6 +33,7 @@ import java.util.*;
  * @author Eric
  * @date 2018/1/2
  */
+@Slf4j
 @Service
 public class ShopServiceImpl implements ShopService {
 
@@ -39,6 +45,9 @@ public class ShopServiceImpl implements ShopService {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private EntityManager entityManager;
 
     @Override
     public Shop save(Shop shop) throws IOException {
@@ -64,34 +73,32 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public boolean importExcel(MultipartFile[] files) throws Exception {
         List<Shop> shopList = ExcelUtil.importExcel(files);
-        List<User> userList = new ArrayList<>();
+        Set<User> userSet = new HashSet<>();
         List<String> shopUuidList = new ArrayList<>();
-        User temp = new User();
         if (shopList.size() > 0) {
-            //shopDao.save(shopList);
             for (Shop aShopList : shopList) {
-                //shopQrCodeService.save(aShopList.getUuid());
                 String userUuid = UUIDUtil.getUUID();
                 User user = userService.findByUserName(aShopList.getTelpohone());
                 if (user != null) {
                     aShopList.setUser(new User(user.getUuid()));
-                    //shopDao.save(aShopList);
-                    shopUuidList.add(aShopList.getUuid());
-                    //shopQrCodeService.save(aShopList.getUuid());
                 } else {
-                    aShopList.setUser(new User(userUuid));
+                    User temp = new User();
                     temp.setUuid(userUuid);
                     temp.setUserName(aShopList.getTelpohone());
                     temp.setPassword(MD5Util.getMD5Password(ConstantClassField.DEFAULT_PASSWORD, userUuid));
-                    userList.add(temp);
-                    shopUuidList.add(aShopList.getUuid());
-                    //userService.save(temp);
-                    //shopDao.save(aShopList);
-                    //shopQrCodeService.save(aShopList.getUuid());
+                    userSet.add(temp);
+                    aShopList.setUser(new User(userUuid));
                 }
             }
+            if (userSet.size() > 0) {
+                userService.batchSave(new ArrayList<>(userSet));
+                entityManager.flush();
+            }
             shopDao.save(shopList);
-            shopQrCodeService.save(shopUuidList);
+            for (Shop aShopList : shopList) {
+                shopUuidList.add(aShopList.getUuid());
+            }
+            shopQrCodeService.batchSave(shopUuidList);
             return true;
         }
         return false;

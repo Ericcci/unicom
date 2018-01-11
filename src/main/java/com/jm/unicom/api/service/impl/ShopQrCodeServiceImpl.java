@@ -5,7 +5,6 @@ import com.jm.unicom.api.entity.Shop;
 import com.jm.unicom.api.entity.ShopQrCode;
 import com.jm.unicom.api.service.ShopQrCodeService;
 import com.jm.unicom.core.common.ConstantClassField;
-import com.jm.unicom.core.util.QrCodeUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -30,16 +29,24 @@ public class ShopQrCodeServiceImpl implements ShopQrCodeService {
     }
 
     @Override
-    public ShopQrCode save(List<String> shopUuidList) throws IOException {
+    public void batchSave(List<String> shopUuidList) throws IOException {
         List<ShopQrCode> shopQrCodeList = new ArrayList<>();
-        for(int i =0;i<shopUuidList.size();i++){
+        for (String aShopUuidList : shopUuidList) {
             ShopQrCode shopQrCode = new ShopQrCode();
-            shopQrCode.setImgUrl(ConstantClassField.HOST + shopUuidList.get(i));
-            shopQrCode.setImgData(ConstantClassField.BASE64_HEAD + QrCodeUtil.getQrCode(ConstantClassField.QRCODE_URL + ConstantClassField.HOST + shopUuidList.get(i)));
-            shopQrCode.setShop(new Shop(shopUuidList.get(i)));
+            shopQrCode.setImgUrl(ConstantClassField.HOST + aShopUuidList);
+            shopQrCode.setShop(new Shop(aShopUuidList));
             shopQrCodeList.add(shopQrCode);
         }
+        shopQrCodeDao.save(shopQrCodeList);
+    }
 
+    @Override
+    public ShopQrCode save(String shopUuid) throws IOException {
+        ShopQrCode shopQrCode = new ShopQrCode();
+        shopQrCode.setImgUrl(ConstantClassField.HOST + shopUuid);
+        shopQrCode.setShop(new Shop(shopUuid));
         return shopQrCodeDao.save(shopQrCode);
     }
+
+
 }

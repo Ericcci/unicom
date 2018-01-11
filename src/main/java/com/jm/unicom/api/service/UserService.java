@@ -2,6 +2,7 @@ package com.jm.unicom.api.service;
 
 import com.jm.unicom.api.entity.User;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -11,6 +12,8 @@ import java.util.Set;
  * @date 2017/12/22
  */
 public interface UserService {
+    void batchSave(List<User> userList);
+
     User save(User user);
 
     User findByUserName(String userName);

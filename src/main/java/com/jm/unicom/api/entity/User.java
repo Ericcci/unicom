@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -42,15 +40,29 @@ public class User implements Serializable {
     private Integer status = 1;
 
     @JsonManagedReference("shop")
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Set<Shop> shopSet = new HashSet<>();
 
     @ManyToMany(targetEntity = Role.class, cascade = CascadeType.MERGE)//立即从数据库中进行加载数据;
     @JoinTable(name = "t_user_role", joinColumns = {@JoinColumn(name = "user_uuid")}, inverseJoinColumns = {@JoinColumn(name = "role_uuid")})
-    private Set<Role> roles = new HashSet<Role>();
+    private Set<Role> roles = new HashSet<>();
 
     public User(String uuid) {
         this.uuid = uuid;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof User) {
+            User user = (User) o;
+            return userName.equals(user.userName);
+        }
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return userName.hashCode();
     }
 }
 

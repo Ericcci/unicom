@@ -15,5 +15,7 @@ public interface ShopQrCodeService {
 
     ShopQrCode findByUuid(String shopUuid);
 
-    ShopQrCode save(List<String> shopUuidList) throws IOException;
+    void batchSave(List<String> shopUuidList) throws IOException;
+
+    ShopQrCode save(String shopUuid) throws IOException;
 }
