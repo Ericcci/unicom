@@ -3,6 +3,7 @@ package com.jm.unicom.api.service.impl;
 import com.jm.unicom.api.dao.UserDao;
 import com.jm.unicom.api.entity.User;
 import com.jm.unicom.api.service.UserService;
+import com.jm.unicom.core.service.RedisService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;

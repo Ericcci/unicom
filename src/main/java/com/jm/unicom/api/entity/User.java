@@ -5,11 +5,16 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+
+import static javax.persistence.CascadeType.MERGE;
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.REMOVE;
 
 /**
  * User
@@ -28,6 +33,8 @@ public class User implements Serializable {
 
     @Id
     @Column(name = "uuid", columnDefinition = "varchar(50) COMMENT '主键'")
+    @GenericGenerator(name = "user-uuid", strategy = "uuid")
+    @GeneratedValue(generator = "user-uuid")
     private String uuid;
 
     @Column(nullable = false, columnDefinition = "varchar(200) COMMENT '用户名'")
@@ -40,10 +47,10 @@ public class User implements Serializable {
     private Integer status = 1;
 
     @JsonManagedReference("shop")
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Set<Shop> shopSet = new HashSet<>();
 
-    @ManyToMany(targetEntity = Role.class, cascade = CascadeType.MERGE)//立即从数据库中进行加载数据;
+    @ManyToMany(targetEntity = Role.class, cascade = MERGE)//立即从数据库中进行加载数据;
     @JoinTable(name = "t_user_role", joinColumns = {@JoinColumn(name = "user_uuid")}, inverseJoinColumns = {@JoinColumn(name = "role_uuid")})
     private Set<Role> roles = new HashSet<>();
 

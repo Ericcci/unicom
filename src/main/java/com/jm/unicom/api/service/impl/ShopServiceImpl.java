@@ -9,8 +9,9 @@ import com.jm.unicom.api.service.UserService;
 import com.jm.unicom.core.common.ConstantClassField;
 import com.jm.unicom.core.util.ExcelUtil;
 import com.jm.unicom.core.util.MD5Util;
-import com.jm.unicom.core.util.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -18,9 +19,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -46,53 +51,55 @@ public class ShopServiceImpl implements ShopService {
     @Resource
     private UserService userService;
 
-    @Resource
-    private EntityManager entityManager;
-
     @Override
+    @Transactional
     public Shop save(Shop shop) throws IOException {
         User user = userService.findByUserName(shop.getTelpohone());
-        String userUuid = UUIDUtil.getUUID();
         if (user != null) {
             shop.setUser(new User(user.getUuid()));
             shopDao.save(shop);
             shopQrCodeService.save(shop.getUuid());
         } else {
             User temp = new User();
-            shop.setUser(new User(userUuid));
-            temp.setUuid(userUuid);
-            temp.setPassword(MD5Util.getMD5Password(ConstantClassField.DEFAULT_PASSWORD, userUuid));
+            temp.setPassword(MD5Util.getMD5Password(ConstantClassField.DEFAULT_PASSWORD, shop.getTelpohone()));
             temp.setUserName(shop.getTelpohone());
             userService.save(temp);
+            shop.setUser(new User(temp.getUuid()));
             shopDao.save(shop);
             shopQrCodeService.save(shop.getUuid());
         }
         return shop;
     }
 
+
     @Override
+    @Transactional
     public boolean importExcel(MultipartFile[] files) throws Exception {
         List<Shop> shopList = ExcelUtil.importExcel(files);
         Set<User> userSet = new HashSet<>();
         List<String> shopUuidList = new ArrayList<>();
         if (shopList.size() > 0) {
             for (Shop aShopList : shopList) {
-                String userUuid = UUIDUtil.getUUID();
                 User user = userService.findByUserName(aShopList.getTelpohone());
                 if (user != null) {
                     aShopList.setUser(new User(user.getUuid()));
                 } else {
                     User temp = new User();
-                    temp.setUuid(userUuid);
                     temp.setUserName(aShopList.getTelpohone());
-                    temp.setPassword(MD5Util.getMD5Password(ConstantClassField.DEFAULT_PASSWORD, userUuid));
+                    temp.setPassword(MD5Util.getMD5Password(ConstantClassField.DEFAULT_PASSWORD, aShopList.getTelpohone()));
                     userSet.add(temp);
-                    aShopList.setUser(new User(userUuid));
                 }
             }
             if (userSet.size() > 0) {
-                userService.batchSave(new ArrayList<>(userSet));
-                entityManager.flush();
+                List<User> userList = new ArrayList<>(userSet);
+                userService.batchSave(userList);
+                for (User anUserList : userList) {
+                    for (Shop aShopList : shopList) {
+                        if (aShopList.getTelpohone().equals(anUserList.getUserName())) {
+                            aShopList.setUser(new User(anUserList.getUuid()));
+                        }
+                    }
+                }
             }
             shopDao.save(shopList);
             for (Shop aShopList : shopList) {
@@ -121,8 +128,20 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public Page<Shop> findAll(Pageable pageable) {
-        Specification<Shop> specification = (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("status").as(Integer.class), 1);
-        return shopDao.findAll(specification, pageable);
+        String user = (String) SecurityUtils.getSubject().getSession().getAttribute("userName");
+        Page<Shop> shops = shopDao.findAll(new Specification<Shop>() {
+            @Override
+            public Predicate toPredicate(Root<Shop> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                if (user.equals("admin")) {
+                    criteriaQuery.where(criteriaBuilder.equal(root.get("status").as(Integer.class), 1));
+                }
+                criteriaQuery.where(criteriaBuilder.equal(root.get("status").as(Integer.class), 1),
+                        criteriaBuilder.equal(root.get("telpohone").as(String.class), user));
+                return null;
+            }
+
+        }, pageable);
+        return shops;
     }
 
     @Override

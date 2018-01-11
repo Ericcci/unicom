@@ -5,10 +5,12 @@ import com.jm.unicom.api.entity.Role;
 import com.jm.unicom.api.entity.User;
 import com.jm.unicom.api.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 
 import javax.annotation.Resource;
@@ -45,9 +47,13 @@ public class ShiroRealm extends AuthorizingRealm {
         //将token转换成UsernamePasswordToken
         UsernamePasswordToken upToken = (UsernamePasswordToken) token;
         //从转换后的token中获取用户名
-        String userName= upToken.getUsername();
+        String userName = upToken.getUsername();
         User user = userService.findByUserName(userName);
         if (user != null) {
+            // 当验证都通过后，把用户信息放在session里
+            Session session = SecurityUtils.getSubject().getSession();
+            session.setAttribute("userSession", user);
+            session.setAttribute("userName", user.getUserName());
             return new SimpleAuthenticationInfo(user.getUserName(), user.getPassword(), getName());
         } else {
             return null;
