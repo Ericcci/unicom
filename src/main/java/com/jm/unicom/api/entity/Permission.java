@@ -1,10 +1,17 @@
 package com.jm.unicom.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Permission
@@ -13,10 +20,11 @@ import javax.persistence.*;
  * @date 2017/12/27
  */
 @Data
-@ToString
+@NoArgsConstructor
 @Entity
 @Table(name = "t_permission")
-public class Permission {
+@JsonIdentityInfo(generator = JSOGGenerator.class)
+public class Permission implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,11 +46,32 @@ public class Permission {
     @Column(nullable = false, columnDefinition = "int(10) COMMENT '排序'")
     private Integer sort;
 
-    //    @OneToOne(targetEntity = Resource.class, cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-//    @JoinColumn(name = "resource_uuid")
-//    private Resource resource;
-//
-//    @ManyToMany(targetEntity = Operation.class, cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-//    @JoinTable(name = "sys_permission_operation", joinColumns = @JoinColumn(name = "permission_uuid"), inverseJoinColumns = @JoinColumn(name = "operation_uuid"))
-//    private Set<Operation> operations = new HashSet<Operation>();
+    @JsonBackReference("permission")
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinTable(name = "t_role_permission", joinColumns = @JoinColumn(name = "permission_uuid"), inverseJoinColumns = @JoinColumn(name = "role_uuid"))
+    private Set<Role> roleSet = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        Permission that = (Permission) o;
+
+        return uuid.equals(that.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + uuid.hashCode();
+        return result;
+    }
 }

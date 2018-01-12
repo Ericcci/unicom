@@ -37,20 +37,17 @@ public class UserController {
         return InfoData.fail("获取失败");
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public InfoData save(@RequestBody User user) {
-        userService.save(user);
-        return InfoData.success(user, "保存成功");
+        if (userService.save(user) != null) {
+            return InfoData.success(userService.save(user), "保存成功");
+        }
+        return InfoData.success("已存在相同的用户名:" + user.getUserName());
     }
 
-    @PutMapping
+    @PutMapping("/update")
     public InfoData update(@RequestBody User updateUser) {
         userService.update(updateUser);
         return InfoData.success(updateUser, "更新成功");
-    }
-
-    @GetMapping("/add")
-    public String home() {
-        return "你好，Spring Boot";
     }
 }

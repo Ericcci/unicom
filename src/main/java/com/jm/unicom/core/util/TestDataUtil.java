@@ -31,7 +31,7 @@ public class TestDataUtil {
             shop.setCreateTime(sdf.parse(time));
             shop.setShopAddress("福建省晋江市陈埭镇泉商投资大厦2306");
             shop.setShopQq("380652070");
-            shop.setTelpohone("18815999677");
+            shop.setTelephone("18815999677");
             shopList.add(shop);
         }
         return shopList;

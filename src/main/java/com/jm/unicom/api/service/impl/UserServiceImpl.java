@@ -5,6 +5,7 @@ import com.jm.unicom.api.entity.User;
 import com.jm.unicom.api.service.UserService;
 import com.jm.unicom.core.service.RedisService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-        return userDao.save(user);
+        if (userDao.findByUserName(user.getUserName()) == null) {
+            user.setPassword(String.valueOf(new SimpleHash("MD5", user.getPassword(), user.getUserName())));
+            return userDao.save(user);
+        }
+        return null;
     }
 
 

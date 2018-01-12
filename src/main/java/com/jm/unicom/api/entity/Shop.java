@@ -30,7 +30,7 @@ import static javax.persistence.CascadeType.PERSIST;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "t_shop", indexes = {@Index(name = "IDX_SHOP", columnList = "telpohone")})
+@Table(name = "t_shop", indexes = {@Index(name = "IDX_SHOP", columnList = "telephone")})
 @JsonIdentityInfo(generator = JSOGGenerator.class)
 @EntityListeners(AuditingEntityListener.class)
 public class Shop implements Serializable {
@@ -53,7 +53,7 @@ public class Shop implements Serializable {
 
     @Excel(name = "手机号码", width = 20, orderNum = "3")
     @Column(nullable = false, columnDefinition = "varchar(200) COMMENT '店铺手机号码'")
-    private String telpohone;
+    private String telephone;
 
     @Excel(name = "店铺地址", width = 45, orderNum = "4")
     @Column(nullable = false, columnDefinition = "varchar(200) COMMENT '店铺地址'")

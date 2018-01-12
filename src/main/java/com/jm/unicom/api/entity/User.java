@@ -1,5 +1,6 @@
 package com.jm.unicom.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
@@ -11,10 +12,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-
-import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.CascadeType.REMOVE;
 
 /**
  * User
@@ -50,9 +47,9 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Set<Shop> shopSet = new HashSet<>();
 
-    @ManyToMany(targetEntity = Role.class, cascade = MERGE)//立即从数据库中进行加载数据;
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)//立即从数据库中进行加载数据;
     @JoinTable(name = "t_user_role", joinColumns = {@JoinColumn(name = "user_uuid")}, inverseJoinColumns = {@JoinColumn(name = "role_uuid")})
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roleSet = new HashSet<>();
 
     public User(String uuid) {
         this.uuid = uuid;

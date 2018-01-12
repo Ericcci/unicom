@@ -8,10 +8,8 @@ import com.jm.unicom.api.service.ShopService;
 import com.jm.unicom.api.service.UserService;
 import com.jm.unicom.core.common.ConstantClassField;
 import com.jm.unicom.core.util.ExcelUtil;
-import com.jm.unicom.core.util.MD5Util;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -54,15 +52,15 @@ public class ShopServiceImpl implements ShopService {
     @Override
     @Transactional
     public Shop save(Shop shop) throws IOException {
-        User user = userService.findByUserName(shop.getTelpohone());
+        User user = userService.findByUserName(shop.getTelephone());
         if (user != null) {
             shop.setUser(new User(user.getUuid()));
             shopDao.save(shop);
             shopQrCodeService.save(shop.getUuid());
         } else {
             User temp = new User();
-            temp.setPassword(MD5Util.getMD5Password(ConstantClassField.DEFAULT_PASSWORD, shop.getTelpohone()));
-            temp.setUserName(shop.getTelpohone());
+            temp.setPassword(ConstantClassField.DEFAULT_PASSWORD);
+            temp.setUserName(shop.getTelephone());
             userService.save(temp);
             shop.setUser(new User(temp.getUuid()));
             shopDao.save(shop);
@@ -80,13 +78,13 @@ public class ShopServiceImpl implements ShopService {
         List<String> shopUuidList = new ArrayList<>();
         if (shopList.size() > 0) {
             for (Shop aShopList : shopList) {
-                User user = userService.findByUserName(aShopList.getTelpohone());
+                User user = userService.findByUserName(aShopList.getTelephone());
                 if (user != null) {
                     aShopList.setUser(new User(user.getUuid()));
                 } else {
                     User temp = new User();
-                    temp.setUserName(aShopList.getTelpohone());
-                    temp.setPassword(MD5Util.getMD5Password(ConstantClassField.DEFAULT_PASSWORD, aShopList.getTelpohone()));
+                    temp.setUserName(aShopList.getTelephone());
+                    temp.setPassword(ConstantClassField.DEFAULT_PASSWORD);
                     userSet.add(temp);
                 }
             }
@@ -95,7 +93,7 @@ public class ShopServiceImpl implements ShopService {
                 userService.batchSave(userList);
                 for (User anUserList : userList) {
                     for (Shop aShopList : shopList) {
-                        if (aShopList.getTelpohone().equals(anUserList.getUserName())) {
+                        if (aShopList.getTelephone().equals(anUserList.getUserName())) {
                             aShopList.setUser(new User(anUserList.getUuid()));
                         }
                     }
@@ -136,7 +134,7 @@ public class ShopServiceImpl implements ShopService {
                     criteriaQuery.where(criteriaBuilder.equal(root.get("status").as(Integer.class), 1));
                 }
                 criteriaQuery.where(criteriaBuilder.equal(root.get("status").as(Integer.class), 1),
-                        criteriaBuilder.equal(root.get("telpohone").as(String.class), user));
+                        criteriaBuilder.equal(root.get("telephone").as(String.class), user));
                 return null;
             }
 
