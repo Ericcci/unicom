@@ -34,17 +34,20 @@ public class Permission implements Serializable {
     @GeneratedValue(generator = "permission-uuid")
     private String uuid;
 
+    @Column(nullable = false, columnDefinition = "varchar(100) COMMENT '类型'")
+    private String type;
+
     @Column(nullable = false, columnDefinition = "varchar(200) COMMENT '链接地址'")
-    private String urlAddress;
+    private String url;
+
+    @Column(nullable = false, columnDefinition = "varchar(100) COMMENT '权限标识'")
+    private String percode;
+
+    @Column(nullable = false, columnDefinition = "varchar(200) COMMENT '父级uuid'")
+    private String parentUuid;
 
     @Column(columnDefinition = "varchar(200) COMMENT '链接描述'")
-    private String urlDescription;
-
-    @Column(nullable = false, columnDefinition = "varchar(200) COMMENT '具备的权限'")
-    private String permissionInit;
-
-    @Column(nullable = false, columnDefinition = "int(10) COMMENT '排序'")
-    private Integer sort;
+    private String description;
 
     @JsonBackReference("permission")
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)

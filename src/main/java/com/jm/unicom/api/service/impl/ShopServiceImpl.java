@@ -130,11 +130,12 @@ public class ShopServiceImpl implements ShopService {
         Page<Shop> shops = shopDao.findAll(new Specification<Shop>() {
             @Override
             public Predicate toPredicate(Root<Shop> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                if (user.equals("admin")) {
+                if (("admin").equals(user)) {
                     criteriaQuery.where(criteriaBuilder.equal(root.get("status").as(Integer.class), 1));
+                } else {
+                    criteriaQuery.where(criteriaBuilder.equal(root.get("status").as(Integer.class), 1),
+                            criteriaBuilder.equal(root.get("telephone").as(String.class), user));
                 }
-                criteriaQuery.where(criteriaBuilder.equal(root.get("status").as(Integer.class), 1),
-                        criteriaBuilder.equal(root.get("telephone").as(String.class), user));
                 return null;
             }
 

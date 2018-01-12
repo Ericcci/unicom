@@ -64,8 +64,8 @@ public class ShopController {
         return InfoData.success("删除成功");
     }
 
-    @GetMapping("/get/pageShop")
-    @ApiOperation(value = "分页获取店铺信息", notes = "分页获取店铺信息", httpMethod = "GET")
+    @PostMapping("/get/pageShop")
+    @ApiOperation(value = "分页获取店铺信息", notes = "分页获取店铺信息", httpMethod = "POST")
     public Page<Shop> findAll(@ApiParam(name = "page", value = "页数", defaultValue = "0") @RequestParam(value = "page", defaultValue = "0") Integer page,
                               @ApiParam(name = "size", value = "数量", defaultValue = "15") @RequestParam(value = "size", defaultValue = "15") Integer size,
                               @ApiParam(name = "sorts", value = "排序", defaultValue = "createTime") @RequestParam(value = "sorts", defaultValue = "createTime") String sorts) {

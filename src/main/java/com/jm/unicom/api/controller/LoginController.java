@@ -28,7 +28,6 @@ public class LoginController {
     @PostMapping("/login")
     public InfoData login(@RequestBody User user, HttpServletRequest request) {
         Subject currentUser = SecurityUtils.getSubject();
-//new SimpleHash("MD5",user.getPassword(),user.getUserName()
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), String.valueOf(new SimpleHash("MD5", user.getPassword(), user.getUserName())));
         try {
             currentUser.login(token);

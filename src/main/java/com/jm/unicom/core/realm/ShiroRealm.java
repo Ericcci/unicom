@@ -34,7 +34,7 @@ public class ShiroRealm extends AuthorizingRealm {
         for (Role role : user.getRoleSet()) {
             authorizationInfo.addRole(role.getRoleName());
             for (Permission permission : role.getPermissionSet()) {
-                authorizationInfo.addStringPermission(permission.getPermissionInit());
+                authorizationInfo.addStringPermission(permission.getPercode());
             }
         }
         log.info("用户" + user.getUserName() + "具有的角色:" + authorizationInfo.getRoles());

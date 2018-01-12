@@ -36,8 +36,8 @@ public class ShiroService {
         List<Permission> list = permissionService.findAll();
 
         for (Permission permission : list) {
-            filterChainDefinitionMap.put(permission.getUrlAddress(),
-                    permission.getPermissionInit());
+            filterChainDefinitionMap.put(permission.getUrl(),
+                    permission.getPercode());
         }
         return filterChainDefinitionMap;
     }
